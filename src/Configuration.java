@@ -1,3 +1,8 @@
+package src;
+
+import com.google.gson.Gson;
+
+import java.io.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -15,8 +20,8 @@ public class Configuration {
             try {
                 System.out.print(message);
                  value = input.nextInt();
-                if (value < 0){
-                    throw new IllegalArgumentException("Try again, only positive numbers are accepted");
+                if (value < 0 || value == 0){
+                    throw new IllegalArgumentException("Try again, only positive numbers that are greater than zero are accepted");
                 }
                 continueUserInput = false;
             } catch (InputMismatchException ex) {
@@ -30,6 +35,27 @@ public class Configuration {
         }
         while (continueUserInput);
         return value;
+    }
+
+    public static Configuration loadConfigFile(File file){
+        Gson gson = new Gson();
+        Configuration configObj = new Configuration();
+        try (Reader reader = new FileReader(file)) {
+            configObj = gson.fromJson(reader,Configuration.class);
+
+
+        } catch (IOException e) {
+            e.getMessage();
+        }
+        return configObj;
+    }
+    public static void saveConfigFile(File file,Configuration configObj){
+        Gson gson = new Gson();
+        try (Writer writer = new FileWriter("Config.json")){
+                gson.toJson(configObj,writer);
+        } catch (IOException e){
+            e.getMessage();
+        }
     }
 
     public void getUserInput(){
