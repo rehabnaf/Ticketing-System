@@ -12,7 +12,7 @@ public class TicketPool {
     private static Lock lock = new ReentrantLock();
     private static Condition notFull = lock.newCondition();
     private static Condition notEmpty = lock.newCondition();
-    Configuration configObj;
+    private Configuration configObj;
 
     public TicketPool(Configuration configObj){
         this.configObj = configObj;
