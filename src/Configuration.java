@@ -37,11 +37,11 @@ public class Configuration {
         return value;
     }
 
-    public static Configuration loadConfigFile(File file){
+    public static Configuration loadConfigFile(File file){  // method for deserialization = JSON => object
         Gson gson = new Gson();
         Configuration configObj = new Configuration();
         try (Reader reader = new FileReader(file)) {
-            configObj = gson.fromJson(reader,Configuration.class);
+            configObj = gson.fromJson(reader,Configuration.class); // converts JSON to object
 
 
         } catch (IOException e) {
@@ -49,10 +49,10 @@ public class Configuration {
         }
         return configObj;
     }
-    public static void saveConfigFile(File file,Configuration configObj){
+    public static void saveConfigFile(File file,Configuration configObj){  // method for serialization = object => JSON
         Gson gson = new Gson();
-        try (Writer writer = new FileWriter("Config.json")){
-                gson.toJson(configObj,writer);
+        try (Writer writer = new FileWriter(file)){
+                gson.toJson(configObj,writer); // converts object to JSON
         } catch (IOException e){
             e.getMessage();
         }
