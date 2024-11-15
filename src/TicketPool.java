@@ -18,7 +18,12 @@ public class TicketPool {
         this.configObj = configObj;
         this.maxTicketCapacity = configObj.getMaximumTicketCapacity();
         this.totalNumOfTickets = configObj.getTotalNumOfTickets();
-        ticketPool = new Vector<>(this.maxTicketCapacity);
+        ticketPool = new Vector<>();
+        for (int i = 0; i < totalNumOfTickets; ++i){
+            ticketPool.add(new Ticket());
+            /* Creating tickets and adding them to the ticket pool according to how the current number of tickets available in
+            * the system was configured */
+        }
     }
 
 
@@ -38,6 +43,7 @@ public class TicketPool {
             ticketPool.add(ticket);
             System.out.println("A ticket was added");
             ++totalNumOfTickets;
+            System.out.println("Tickets available: " + totalNumOfTickets);
             notEmpty.signal();
             /* condition object that signals to notEmpty.await() while notFull.signal() signals to notFull.await()
             * notEmpty.signal() = Ticket pool is not empty hence a customer can purchase ticktets */
@@ -52,7 +58,7 @@ public class TicketPool {
 
     }
 
-    public void removeTicket(Ticket ticket){ // synchronized method for customers
+    public void removeTicket(){ // synchronized method for customers
         lock.lock();
         try {
             while(totalNumOfTickets == 0){
@@ -60,9 +66,12 @@ public class TicketPool {
                 notEmpty.await();
                 // notEmpty.await() = ticket pool is empty so customer should wait and this allows a vendor to add tickets  //
             }
-            ticketPool.remove(0);
+
+
+            ticketPool.removeLast();
             System.out.println("A ticket was removed");
             --totalNumOfTickets;
+            System.out.println("Tickets available: " + totalNumOfTickets);
             notFull.signal();
             // notFull.signal() = ticket pool is not full hence a vendor can add tickets. notFull.signal() => notFull.await()
         }
