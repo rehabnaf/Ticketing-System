@@ -20,7 +20,7 @@ public class TicketPool {
         this.totalNumOfTickets = configObj.getTotalNumOfTickets();
         ticketPool = new Vector<>();
         for (int i = 0; i < totalNumOfTickets; ++i){
-            ticketPool.add(new Ticket());
+            ticketPool.add(new Ticket(0));
             /* Creating tickets and adding them to the ticket pool according to how the current number of tickets available in
             * the system was configured */
         }
@@ -34,14 +34,14 @@ public class TicketPool {
          */
         try {
             while(totalNumOfTickets == maxTicketCapacity){
-                System.out.println("Vendor should wait, ticket pool is full");
+                System.out.println("Vendor "+ ticket.getVendorId() + " should wait, ticket pool is full");
                 notFull.await();
                 /*  condition object for thread communication, await method allows another thread to run so if the ticket pool is full
                 * the vendor should wait and this allows a customer to buy tickets (remove tickets since the ticket pool is full)
                 * notFull.await() = Ticket pool is full  */
             }
             ticketPool.add(ticket);
-            System.out.println("A ticket was added");
+            System.out.println("A ticket was added by Vendor " + ticket.getVendorId());
             ++totalNumOfTickets;
             System.out.println("Tickets available: " + totalNumOfTickets);
             notEmpty.signal();
@@ -58,7 +58,7 @@ public class TicketPool {
 
     }
 
-    public void removeTicket(){ // synchronized method for customers
+    public void removeTicket(int customerId){ // synchronized method for customers
         lock.lock();
         try {
             while(totalNumOfTickets == 0){
@@ -69,7 +69,7 @@ public class TicketPool {
 
 
             ticketPool.removeLast();
-            System.out.println("A ticket was removed");
+            System.out.println("A ticket was bought by Customer " + customerId);
             --totalNumOfTickets;
             System.out.println("Tickets available: " + totalNumOfTickets);
             notFull.signal();

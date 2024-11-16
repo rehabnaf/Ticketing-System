@@ -17,7 +17,7 @@ public class Customer implements Runnable {
     public void run(){
         while(true){
             for (int i = 0; i < customerRetrievalRate; ++i){
-                ticketPool.removeTicket();
+                ticketPool.removeTicket(this.customerID);
             }
             try {
                 Thread.sleep(retrievalInterval);

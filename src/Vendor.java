@@ -17,7 +17,7 @@ public class Vendor implements Runnable {
             while (true){
                 // Making a vendor release tickets in batches according to the configuration (ticketsPerRelease)
                 for (int i = 0; i < ticketsPerRelease;++i){
-                    ticketPool.addTickets(new Ticket());
+                    ticketPool.addTickets(new Ticket(this.vendorId));
                 }
                 try {
                     Thread.sleep(releaseInterval);
