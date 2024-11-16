@@ -37,6 +37,8 @@ public class Configuration {
         return value;
     }
 
+
+
     public static Configuration loadConfigFile(File file){  // method for deserialization = JSON => object
         Gson gson = new Gson();
         Configuration configObj = new Configuration();
@@ -64,6 +66,11 @@ public class Configuration {
         this.ticketReleaseRate = validateInput(input,"Enter the ticket release rate: ");
         this.customerRetrievalRate = validateInput(input,"Enter the customer retrieval rate: ");
         this.maximumTicketCapacity = validateInput(input,"Enter the maximum ticket capacity: ");
+        while (this.totalNumOfTickets > this.maximumTicketCapacity){
+            System.out.println("Try again, total number of tickets is greater than maximum ticket capacity.");
+            this.totalNumOfTickets = validateInput(input,"Enter the total number of tickets: ");
+            this.maximumTicketCapacity = validateInput(input,"Enter the maximum ticket capacity: ");
+        }
     }
 
     public int getTotalNumOfTickets(){
