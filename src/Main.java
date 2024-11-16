@@ -22,11 +22,11 @@ public class Main {
             // Saves the configuration file so that we don't have to ask for user input everytime we run the program
         }
 
-        ExecutorService executor = Executors.newCachedThreadPool();
+        ExecutorService executor = Executors.newCachedThreadPool(); // Creates a thread pool which creates threads as required
         TicketPool ticketPool = new TicketPool(configObj);
-        executor.execute(new Vendor(ticketPool,1,configObj));
+        executor.execute(new Vendor(ticketPool,1,configObj));  // Creates a thread for a vendor task and runs the task
         executor.execute(new Vendor(ticketPool,2,configObj));
-        executor.execute(new Customer(1,ticketPool,configObj));
+        executor.execute(new Customer(1,ticketPool,configObj)); // Creates a thread for a consumer task and runs the task
         executor.execute(new Customer(2,ticketPool,configObj));
         executor.shutdown();
 
