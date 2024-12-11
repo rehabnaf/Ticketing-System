@@ -1,5 +1,7 @@
 package src;
 
+import src.config.Configuration;
+
 import java.util.Vector;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;

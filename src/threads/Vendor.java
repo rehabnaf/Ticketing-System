@@ -1,5 +1,7 @@
 package src;
 
+import src.config.Configuration;
+
 public class Vendor implements Runnable {
     private Configuration configObj;
     private int vendorId;

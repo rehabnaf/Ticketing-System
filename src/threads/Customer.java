@@ -1,5 +1,7 @@
 package src;
 
+import src.config.Configuration;
+
 public class Customer implements Runnable {
     private int customerID;
     private int retrievalInterval;
